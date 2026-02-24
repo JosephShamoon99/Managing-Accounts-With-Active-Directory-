@@ -2,13 +2,9 @@
 <img src="https://i.imgur.com/pU5A58S.png" alt="Microsoft Active Directory Logo"/>
 </p>
 
-<h1>On-premises Active Directory Deployed in the Cloud (Azure)</h1>
-This tutorial outlines the implementation of on-premises Active Directory within Azure Virtual Machines.<br />
-
-
-<h2>Video Demonstration</h2>
-
-- ### [YouTube: How to Deploy on-premises Active Directory within Azure Compute](https://www.youtube.com)
+<h1>Managing Accounts With Active Diretcory (Azure)</h1>
+Now that we have created an Active Directory Domain on Azure, it is time to learn how to actually use it. This tutorial will show you 
+how to manage user accounts with Active Directory.<br />
 
 <h2>Environments and Technologies Used</h2>
 
@@ -22,12 +18,10 @@ This tutorial outlines the implementation of on-premises Active Directory within
 - Windows Server 2022
 - Windows 10 (21H2)
 
-<h2>High-Level Deployment and Configuration Steps</h2>
+<h2>High-Level Steps</h2>
 
-- Step 1
-- Step 2
-- Step 3
-- Step 4
+- Create Dummy Accounts with a Powershell script 
+- Explore how we can manage these accounts with Active Directory 
 
 <h2>Creating Dummy Accocunts</h2> 
 
@@ -118,4 +112,13 @@ For whatever reason you need to, you can disable a user's account. This will pre
 <p>
 You can login into client 1 as an admin and use eventvwr.msc to view logs on the client. Navigate to windows logs > security to view logon attempts to the client. You can find the logon attempts of a specific account by right clicking security and selecting find. Type in the account you want to see and you can view each log from that account.
 </p>
-<br />   
+<br />     
+
+
+<p>
+Awesome! You now know a little more about deploying Active Directory and how to use it. Good job!
+</p>
+<br />    
+
+
+
