@@ -16,12 +16,12 @@ how to manage user accounts with Active Directory.<br />
 <h2>Operating Systems Used </h2>
 
 - Windows Server 2022
-- Windows 10 (21H2)
+- Windows 11
 
 <h2>High-Level Steps</h2>
 
-- Create Dummy Accounts with a Powershell script 
-- Explore how we can manage these accounts with Active Directory 
+- Create dummy accounts with a Powershell script 
+- Explore how we can manage these dummy accounts with Active Directory 
 
 <h2>Creating Dummy Accocunts</h2> 
 
@@ -32,9 +32,9 @@ how to manage user accounts with Active Directory.<br />
 <img width="470" height="388" alt="Snapshot 44" src="https://github.com/user-attachments/assets/1ecdf3d1-0b1f-47b5-895f-e2933d593f26" />
 </p>
 <p>
-The same way, we need to allow Jane Doe to login remotely to the domain controller, we need 
-to allow normal users the ability to login to client 1. The first thing that we will 
-do is sign into client 1 with the Jane Doe account. Go to system > properties. Then select remote desktop and then remote desktop users. Client 1 is the context of our domain, so we can access groups in our domain. We want any user in our domain to be able to login to client 1 remotely, so select Domain users. 
+The same way we needed to allow Jane Doe to log in remotely to the domain controller, we need 
+to allow normal users the ability to log in to our client remotely. The first thing that we will 
+do is log in to our client with the Jane Doe account. Go to system > properties. Then select remote desktop and then remote desktop users. Our client is in the context of our domain, so we can access groups in our domain. We want any user in our domain to be able to log in to our client remotely, so select "Domain Users". 
 </p>
 <br />   
 
@@ -45,11 +45,11 @@ do is sign into client 1 with the Jane Doe account. Go to system > properties. T
 <img width="773" height="547" alt="Snapshot 48" src="https://github.com/user-attachments/assets/72a38829-14b8-4bf7-8571-f210a40bb587" />
 </p>
 <p>
-We will now create a bunch of fake users using a powershell script. Start by logging into the domain  controller with the jane doe account. Then open powershell ISE as an admin.  
+We will now create a bunch of fake users using a powershell script. Start by logging into the domain controller with the Jane Doe account. Then open Powershell ISE as an admin.  
 
 Create a new script and copy and paste this [script](https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1).  
 
-This will create a 1000 users. Click run script. You should see all the accounts being created in the CLI. All users will have the password 'Password1'. You can go to Active Directory computers and users and see all the accounts in the _EMPLOYEES OU.  
+This will create a 1000 fake users. Click run script. You should see all the accounts being created in the CLI. All the fake users will have the password 'Password1'. You can go to Active Directory Computers and Users and see all the accounts in the _EMPLOYEES OU.  
 </p>
 <br />    
 
@@ -57,7 +57,7 @@ This will create a 1000 users. Click run script. You should see all the accounts
 <img width="704" height="744" alt="Snapshot 49" src="https://github.com/user-attachments/assets/39d5fc50-d10f-4e2d-a516-a5571e875674" />
 </p>
 <p>
-You can now Login to client 1 with one of the accounts we created. I will login with bac.jape. 
+You can now Log in to our client with any of the accounts we created. I will log in with "bac.jape", but you can pick anyone you want. 
 </p>
 <br />   
 
@@ -77,7 +77,7 @@ You can now Login to client 1 with one of the accounts we created. I will login 
 <p>
 We will need to configure a group policy that will only allow users a certain number of login 
 attempts before their account is locked out for security reasons. This is to stop any hackers from 
-guessing a user's password with an unlimited amount of guesses. Right click start > run and type in gpmc.msc. This will open the group policy management console. Navigate to the group policy objects OU and right click default domain policy to edit it. This will open the group policy management editor. Computer Configuration > Policies > Windows settings > Security Settings > Account Policies > Account Lockout Policy. Account lockout duration is how long a user will be locked out and account lockout threshold will be how many appointments a user gets before they are locked out. Set Account lockout duration to 30 mins and set account lockout threshold to 5 attempts  You can confirm the account settings in the group policy management console by clicking the settings tab. It will take 90 mins for these settings to be updated to all computer clients in the domain or you can automatically update the policy on client 1 by using the command prompt as an admin and type  the command gpupdate /force with the jane doe account.  
+guessing a user's password with an unlimited amount of attempts. Right click start > run and type in "gpmc.msc". This will open the Group Policy Management Console. Navigate to the Group Policy Objects OU and right click Default Domain Policy to edit it. This will open the Group Policy Management Editor. Click Computer Configuration > Policies > Windows Settings > Security Settings > Account Policies > Account Lockout Policy. Account Lockout Duration is how long a user will be locked out and Account Lockout Threshold will be how many login attempts a user gets before they are locked out. Set Account Lockout Duration to 30 mins and set Account Lockout Threshold to 5 attempts.  You can confirm the account settings in the Group Policy Management Console by clicking the Settings tab. It will take 90 mins for these settings to be updated to all computer clients in the domain or you can automatically update the policy on our client by using the Command Prompt as an admin and run the command "gpupdate /force" with the Jane Doe account.  
 </p>
 <br />    
 
@@ -88,9 +88,9 @@ guessing a user's password with an unlimited amount of guesses. Right click star
 <img width="788" height="624" alt="Snapshot 62" src="https://github.com/user-attachments/assets/d6920fde-32c3-4608-ae7f-ee160d2bed85" />
 </p>
 <p>
-With our lockout policy now in place, let's lockout one of our users accounts on purpose 
-to see how we can unlock their account. This is a very common problem in the help desk. Pick any account from the _EMPLOYEES OU and try to login to client 
-1 with the wrong password more than 5 times. You should get a notification saying this account is now locked out. Login into DC-1 with the jane account and go active directory users and computers and navigate to _EMPLOYEEES OU. You can find the account more easily by right clicking the _EMPOLYEE OU, click find and type in the user's account username. Click on the account and select the account tab. Check the box to unlock the account. You should be able to login to client 1 with the account now. You can also reset a user's password by right licking it and selecting a new password. You can also unlock an account there as well. You should be able to login to client 1 with that account now.  
+With our Lockout Policy now in place, let's lockout one of our users on purpose 
+to see how we can unlock their account. This is a very common problem at the help desk. Pick any account from the _EMPLOYEES OU and try to log in to our client 
+with the wrong password more than 5 times. You should get a notification saying this account is now locked out. Log in to the domain controller with the Jane Doe account and go Active Directory Users and Computers and navigate to _EMPLOYEEES OU. You can find the account more easily by right clicking the _EMPOLYEE OU, click "find" and type in the user's username. Click on the account and select the Account tab. Check the box to unlock the account. You should be able to log in to our client with the account now. You can also reset a user's password by right clicking their account and selecting New Password. You can also unlock their account there as well.
 </p>
 <br />    
 
@@ -99,7 +99,7 @@ to see how we can unlock their account. This is a very common problem in the hel
 <img width="779" height="636" alt="Snapshot 64" src="https://github.com/user-attachments/assets/7ddd50b3-8803-400c-bc22-80467c9973db" />
 </p>
 <p>
-For whatever reason you need to, you can disable a user's account. This will prevent them from logging into any clients in the domain. Right click the user's account and click the disabled account. You should see a little down arrow when it is disabled. You can enable an account by right clicking it and selecting the enabled account. The little arrow should go away.
+For whatever reason you need to, you can disable a user's account. This will prevent them from logging in to any clients in the domain. Right click the user's account and click "disabled account". You should see a little down arrow when it is disabled. You can enable an account by right clicking it and selecting "enabled account". The little arrow should go now.
 </p>
 <br />   
 
@@ -110,13 +110,13 @@ For whatever reason you need to, you can disable a user's account. This will pre
 <img width="1099" height="507" alt="Snapshot 68" src="https://github.com/user-attachments/assets/1cf6dfef-da18-4cfd-80ae-150e0d87edde" />
 </p>
 <p>
-You can login into client 1 as an admin and use eventvwr.msc to view logs on the client. Navigate to windows logs > security to view logon attempts to the client. You can find the logon attempts of a specific account by right clicking security and selecting find. Type in the account you want to see and you can view each log from that account.
+You can log in into our client as an admin and use "eventvwr.msc" to view logs on the client. Navigate to Windows Logs > Security to view login attempts on the client. You can find the login attempts of a specific account by right clicking Security and selecting "find". Type in the account you want to see and you can view each log from that account.
 </p>
 <br />     
 
 
 <p>
-Awesome! You now know a little more about deploying Active Directory and how to use it. Good job!
+Awesome! You now know a little more about deploying Active Directory and how to use it. Good job! This is just scratching the surface. Get out there and find out more about Active Directory.
 </p>
 <br />    
 
